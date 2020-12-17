@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Post;
-
+use App\Http\Controllers\PermissionController;
 class AdminController extends Controller
 {
-    public function __construct()
+    public function __construct(PermissionController $permissionController)
     {
         $this->middleware('auth');
         $this->middleware('App\Http\Middleware\isUserAdmin');
+        $this->PermissionController = $permissionController;
     }
     public function index()
     {
@@ -24,7 +25,7 @@ class AdminController extends Controller
         foreach($posts as $x){
             $array[] = ($x['user_id']);
         }
-        $posts = Post::whereIn('user_id',$array)->paginate(5);
+        $posts = Post::paginate(5);
         //dd($posts);
         $user = auth()->user();
         //dd($posts->links());
@@ -38,69 +39,17 @@ class AdminController extends Controller
     }
     public function store()
     {
+
         $user = auth()->user();
         $data = request()->validate([
             'id' => 'required',
             'name' => 'required'
         ]);
         $user_id = request('id');
-        $user_name = request('name');
-        if(User::find($user_id))
-        {
-            $update = DB::table('users')->where('id', $user_id)->update(['isAdmin' => true]);
-            return Redirect::to("/admin")->with('success', true)->with('message',"{$user_name} has been granted admin permission.");;
-        }
-        else{
-            return Redirect::to("admin/permission")->with('success', false)->with('message','Not a registered user.');;
-        }
-    }
-    public function edit($index,User $user)
-    {   $pos = $index;
-        $array = array();
-        $posts = Post::all();
-        foreach($posts as $x){
-            $array[] = ($x['user_id']);
-        }
-        $post = Post::whereIn('user_id',$array)->get();
-        return view('admin.edit',compact('pos','post','user'));
-    }
+        $user_name = DB::table('users')->where('id', $user_id)->pluck('name');
+        $response = $this->PermissionController->setPermission($user_id, $user_name, $data);
+        return $response;
 
-    public function update()
-    {
-        date_default_timezone_set('Asia/Kolkata');
-        $current_time = date('Y-m-d H:i:s');
-        $post = Post::all();
-        $user = auth()->user();
-        $data = request()->validate([
-            'caption' => 'required',
-            'image' => ''
-        ]);
-        $pos = htmlspecialchars($_REQUEST['path']);
-        $imagePath = $post[$pos]->image;
-        if(request('image'))
-        {
-            $imagePath = request('image');
-            $imagePath = request('image')->store('uploads','public');
-
-
-        }
-        $post[$pos]->update(array_merge(
-            $data,
-            ['image' => $imagePath, 'created_at' => $current_time, 'updated_at' => $current_time]
-        ));
-        return redirect("/admin");
-    }
-    public function destroy($index)
-    {
-        $array = array();
-        $posts = Post::all();
-        foreach($posts as $x){
-            $array[] = ($x['user_id']);
-        }
-        $post = Post::whereIn('user_id',$array)->get();
-        $delete_post = $post[$index];
-        $delete_post->delete();
-        return redirect("/admin");
     }
 
     public function show()

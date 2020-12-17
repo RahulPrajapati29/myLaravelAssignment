@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="/admin/{{ $pos }}" enctype="multipart/form-data" method="POST">
+        <form action="{{ route('post.update',$post->id) }}" enctype="multipart/form-data" method="POST">
             @csrf
             @method('PATCH')
             <div class="row">
@@ -17,7 +17,7 @@
                                type="text"
                                class="form-control @error('caption') is-invalid @enderror"
                                name="caption"
-                               value="{{ old('caption') ?? $post[$pos]->caption }}"
+                               value="{{ old('caption') ?? $post->caption }}"
                                autocomplete="caption" autofocus>
                         @error('caption')
                         <span class="invalid-feedback" role="alert">
@@ -33,7 +33,7 @@
                         @enderror
                     </div>
                     <div class="row pt-4">
-                        <button class="btn btn-primary" name="path" value="{{ $pos }}">Update</button>
+                        <button class="btn btn-primary" >Update</button>
                     </div>
                 </div>
             </div>

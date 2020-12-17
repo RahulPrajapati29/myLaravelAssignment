@@ -2,60 +2,6 @@
 
 @section('content')
     <div>
-        <aside class=" main-sidebar sidebar-dark-primary elevation-4">
-
-            <div class="fa-2x pl-3 font-weight-bold text-blue" style="color: #ffffff">
-                <a href="/admin" class="text-decoration-none">
-                    myApp
-                </a>
-
-            </div>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="info">
-                        <a class= href="#" class="d-block">Admin: {{ $user->name }}</a>
-                    </div>
-                </div>
-
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
-
-                        <li class="nav-item">
-                            <a href="/admin/dashboard" class="nav-link">
-                                <p>
-                                    Dashboard
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/post/create" class="nav-link active">
-                                <p>
-                                    Posts
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/permission" class="nav-link">
-                                <p>
-                                    Permissions
-                                </p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
-        </aside>
-
-
         <div class="container">
             <form action="/post" enctype="multipart/form-data" method="POST">
                 @csrf

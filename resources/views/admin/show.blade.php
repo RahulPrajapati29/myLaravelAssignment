@@ -4,55 +4,9 @@
     @if(Session::has('success'))
         <div class="alert alert-success col-8 offset-3 ">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Success!</strong> {{ Session::get('message', '') }}
+            <strong>{{ Session::get('message', '') }}</strong>
         </div>
     @endif
-    <aside class=" main-sidebar sidebar-dark-primary elevation-4">
-
-        <div class="fa-2x pl-3 font-weight-bold " style="color: #ffffff">myApp</div>
-
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Sidebar user panel (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="info">
-                    <a class= href="#" class="d-block">Admin: {{ $user->name }}</a>
-                </div>
-            </div>
-
-            <!-- Sidebar Menu -->
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
-                    <li class="nav-item">
-                        <a href="/admin/dashboard" class="nav-link">
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/post/create" class="nav-link">
-                            <p>
-                                Posts
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin/permission" class="nav-link">
-                            <p>
-                                Permissions
-                            </p>
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
-            <!-- /.sidebar-menu -->
-        </div>
-        <!-- /.sidebar -->
-    </aside>
     <div class="row">
         <div class="col-8 offset-3">
             <div class="card">
@@ -83,16 +37,16 @@
                                 <td>{{ $post->created_at }}</td>
                                 <td>{{ $post->caption }}</td>
                                 <td>
-                                    <form action="/admin/{{ $loop->index }}/edit" enctype="multipart/form-data" method="GET">
-                                        @csrf
-                                        <button class="btn btn-primary" >Edit</button>
-                                    </form>
+                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-primary text-white text-decoration-none " role="button">
+                                        <span class="ion-edit"></span>
+                                        Edit
+                                    </a>
                                 </td>
                                 <td>
-                                    <form action="/admin/{{ $loop->index }}" enctype="multipart/form-data" method="POST">
+                                    <form action="{{ route('post.destroy',$post->id) }}" enctype="multipart/form-data" method="POST">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-primary">Delete</button>
+                                        <button class="btn btn-primary"><span class="ion ion-trash-a"></span> Delete</button>
                                     </form>
                                 </td>
                             </tr>

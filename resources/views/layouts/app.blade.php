@@ -26,7 +26,7 @@
 
 
 </head>
-<body class="overflow-hidden">
+<body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -81,7 +81,86 @@
                 </div>
             </div>
         </nav>
+        @auth
+        <div class="row">
+            <aside class=" main-sidebar sidebar-dark-primary elevation-4">
 
+                <div class="fa-2x pl-3 font-weight-bold text-blue" style="color: #ffffff">
+                    <a href="/admin" class="text-decoration-none">
+                        myApp
+                    </a>
+
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="info">
+                            <a class= href="#" class="d-block">Admin: {{ auth()->user()->name }} </a>
+                            <span class="ion-ios-checkmark-outline text-green"></span>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <!-- Add icons to the links using the .nav-icon class
+                                 with font-awesome or any other icon font library -->
+                            <li class="nav-item">
+                                @php
+                                    $isactive = '';
+                                    if(Request::path() == 'admin/dashboard'){
+                                        $isactive = 'active';
+                                    }
+                                @endphp
+                                <a href="/admin/dashboard" class="nav-link {{ $isactive }}">
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                @php
+                                    $isactive = '';
+                                    if(Request::path() == 'post/create'){
+                                        $isactive = 'active';
+                                    }
+                                @endphp
+                                <a href="/post/create" class="nav-link {{ $isactive }}">
+                                    <p>
+                                        Post
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                @php
+                                    $isactive = '';
+                                    if(Request::path() == 'admin/permission'){
+                                        $isactive = 'active';
+                                    }
+                                @endphp
+                                <a href="/admin/permission" class="nav-link {{ $isactive }}">
+                                    <p>
+                                        Permission
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+
+                            </li>
+
+
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                </div>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+        @endauth
         <main class="py-4">
             @yield('content')
         </main>
