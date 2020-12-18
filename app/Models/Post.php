@@ -16,4 +16,41 @@ class Post extends Model
 
         return $this->belongsTo(User::class);
     }
+    public function updateThePost($id)
+    {
+        date_default_timezone_set('Asia/Kolkata');
+        $current_time = date('Y-m-d H:i:s');
+        $data = request()->validate([
+            'caption' => 'required',
+            'image' => ''
+        ]);
+        $post = Post::find($id);
+        $imagePath = $post->image;
+
+        if(request('image'))
+        {
+            $imagePath = request('image');
+            $imagePath = request('image')->store('uploads','public');
+
+
+        }
+        $post->update(array_merge(
+            $data,
+            ['image' => $imagePath, 'created_at' => $current_time, 'updated_at' => $current_time]
+        ));
+    }
+    public function storeThePost()
+    {
+        $data = request()->validate([
+            'caption' => 'required',
+            'image' => ['required','image']
+        ]);
+
+        $imagePath = request('image')->store('uploads','public');
+
+        auth()->user()->posts()->create([
+            'caption' => $data['caption'],
+            'image' => $imagePath
+        ]);
+    }
 }

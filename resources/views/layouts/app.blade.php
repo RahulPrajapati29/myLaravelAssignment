@@ -86,10 +86,7 @@
             <aside class=" main-sidebar sidebar-dark-primary elevation-4">
 
                 <div class="fa-2x pl-3 font-weight-bold text-blue" style="color: #ffffff">
-                    <a href="/admin" class="text-decoration-none">
                         myApp
-                    </a>
-
                 </div>
 
                 <!-- Sidebar -->
@@ -124,11 +121,11 @@
                             <li class="nav-item">
                                 @php
                                     $isactive = '';
-                                    if(Request::path() == 'post/create'){
+                                    if(Request::path() == 'post'){
                                         $isactive = 'active';
                                     }
                                 @endphp
-                                <a href="/post/create" class="nav-link {{ $isactive }}">
+                                <a href="/post" class="nav-link {{ $isactive }}">
                                     <p>
                                         Post
                                     </p>

@@ -10,16 +10,35 @@ use Illuminate\Support\Facades\Redirect;
 class PermissionController extends Controller
 {
     //
+    public function create()
+    {
+        $user = auth()->user();
+        return view('admin.grantaccess',compact('user'));
+    }
+    public function store()
+    {
+
+        $user = auth()->user();
+        $data = request()->validate([
+            'id' => 'required',
+            'name' => 'required'
+        ]);
+        $user_id = request('id');
+        $user_name = DB::table('users')->where('id', $user_id)->pluck('name');
+        $response = $this->setPermission($user_id, $user_name, $data);
+        return $response;
+
+    }
     public function setPermission($user_id, $user_name, $data)
     {
         if(User::find($user_id))
         {
             if(DB::table('users')->where('id', $user_id)->pluck('isAdmin')[0] == 1){
-                return Redirect::to("/admin")->with('success', true)->with('message',"{$user_name[0]} is already Admin.");
+                return Redirect::to("/admin/permission")->with('success', true)->with('message',"{$user_name[0]} is already Admin.");
 
             }
             $update = DB::table('users')->where('id', $user_id)->update(['isAdmin' => true]);
-            return Redirect::to("/admin")->with('success', true)->with('message',"Success! {$user_name[0]} has been granted admin permission.");
+            return Redirect::to("/admin/permission")->with('success', true)->with('message',"Success! {$user_name[0]} has been granted admin permission.");
         }
         else{
             return Redirect::to("admin/permission")->with('success', false)->with('message','Not a registered user.');

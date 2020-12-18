@@ -9,7 +9,7 @@
                     <strong>{{ Session::get('message', '') }} </strong>
                 </div>
             @endif
-            <form action="/admin" enctype="multipart/form-data" method="POST">
+            <form action="{{ route('permission.store') }}" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-8 offset-2">

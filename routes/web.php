@@ -19,13 +19,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index']);
 
 Route::resource('user', 'App\Http\Controllers\HomeController');
 
 Route::resource('post', 'App\Http\Controllers\PostsController');
 
-Route::get('/admin/permission', [App\Http\Controllers\AdminController::class, 'create']);
+Route::get('/admin/permission', [App\Http\Controllers\PermissionController::class, 'create']);
 
-Route::patch('/admin', [App\Http\Controllers\AdminController::class, 'store']);
+Route::post('/admin/permission', [App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
 
-Route::resource('admin', 'App\Http\Controllers\AdminController');

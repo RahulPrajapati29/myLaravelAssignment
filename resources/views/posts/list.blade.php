@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="container">
+
         <div class="col-8 offset-3">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Post Details</h3>
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="card-title ">Post Details &nbsp</h3>
+                    <a href="{{ route('post.create') }}" class="btn btn-primary btn-dark ">Create Post</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
@@ -58,7 +60,6 @@
             </div>
             <!-- /.card -->
         </div>
-
     </div>
 
 @endsection
