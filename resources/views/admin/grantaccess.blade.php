@@ -4,6 +4,11 @@
     <div>
         <div class="container">
             @if(Session::has('success'))
+                <div class="alert alert-success col-8 offset-2 ">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>{{ Session::get('message', '') }} </strong>
+                </div>
+            @elseif(!Session::has('success') and Session::has('message'))
                 <div class="alert alert-danger col-8 offset-2 ">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <strong>{{ Session::get('message', '') }} </strong>
@@ -11,42 +16,24 @@
             @endif
             <form action="{{ route('permission.store') }}" enctype="multipart/form-data" method="POST">
                 @csrf
-                <div class="row">
-                    <div class="col-8 offset-2">
-                        <div class="row">
-                            <h1>Grant Admin Permission</h1>
-                        </div>
-                        <div class="form-group row">
-                            <label for="id" class="col-md-4 col-form-label ">Id</label>
-                            <input id="id"
-                                   type="text"
-                                   class="form-control @error('id') is-invalid @enderror"
-                                   name="id"
-                                   autocomplete="id" autofocus>
-                            @error('id')
-                            <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label ">Name</label>
-                            <input id="name"
-                                   type="text"
-                                   class="form-control @error('name') is-invalid @enderror"
-                                   name="name"
-                                   autocomplete="name" autofocus>
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+                <div class="form-group offset-2">
+                    <div class="col-md-8">
+                        <h1><label for="dropdown">Grant Admin Permission</label></h1><br>
+                        <label for="id">Select Name:</label>
+                        <select class="form-control" id="id" name="id">
+                            @foreach($items as $item)
+                                <option  value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                            <option value="volvo">Volvo</option>
+                        </select>
 
-
-                        <div class="row pt-4">
-                            <button class="btn btn-primary">Make Admin</button>
-                        </div>
+                        @if ($errors->has('dropdown'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('dropdown') }}</strong>
+                            </span>
+                        @endif
+                        <br>
+                        <button class="btn btn-primary">Make Admin</button>
                     </div>
                 </div>
             </form>

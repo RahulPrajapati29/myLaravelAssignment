@@ -19,32 +19,11 @@ class AdminController extends Controller
 
     public function index()
     {
-        $posts = Post::all();
+
         $user = auth()->user();
-        $day = date("d");
-        $month = date("m");
-        $year = date("Y");
-        $count_currrent_month_user = 0;
-        $count_currrent_month_posts = 0;
-        $users = User::all();
-
-
-        foreach($users as $x=>$val){
-            $c_day = $val['created_at']->day;
-            $c_month = $val['created_at']->month;
-            $c_year = $val['created_at']->year;
-            if($c_year == $year and $c_month == $month and $c_day == $day){
-                $count_currrent_month_user +=1;
-            }
-        }
-        foreach($posts as $x=>$val){
-            $c_day = $val['created_at']->day;
-            $c_month = $val['created_at']->month;
-            $c_year = $val['created_at']->year;
-            if($c_year == $year and $c_month == $month and $c_day == $day){
-                $count_currrent_month_posts +=1;
-            }
-        }
+        $count_currrent_month_user = (new \App\Models\User)->currentMonthUser();
+        $count_currrent_month_posts = (new \App\Models\User)->currentMonthPost();
+        $posts = Post::all();
         return view('admin.dashboard',compact('user','count_currrent_month_user','posts','count_currrent_month_posts'));
 
     }

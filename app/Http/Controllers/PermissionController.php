@@ -13,15 +13,14 @@ class PermissionController extends Controller
     public function create()
     {
         $user = auth()->user();
-        return view('admin.grantaccess',compact('user'));
+        $items = User::all();
+        return view('admin.grantaccess',compact('user','items'));
     }
     public function store()
     {
-
         $user = auth()->user();
         $data = request()->validate([
             'id' => 'required',
-            'name' => 'required'
         ]);
         $user_id = request('id');
         $user_name = DB::table('users')->where('id', $user_id)->pluck('name');
@@ -41,7 +40,7 @@ class PermissionController extends Controller
             return Redirect::to("/admin/permission")->with('success', true)->with('message',"Success! {$user_name[0]} has been granted admin permission.");
         }
         else{
-            return Redirect::to("admin/permission")->with('success', false)->with('message','Not a registered user.');
+            return Redirect::to("admin/permission")->with('Error', false)->with('message','Not a registered user.');
         }
     }
 }
