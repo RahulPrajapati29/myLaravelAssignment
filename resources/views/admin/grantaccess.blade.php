@@ -24,7 +24,6 @@
                             @foreach($items as $item)
                                 <option  value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
-                            <option value="volvo">Volvo</option>
                         </select>
 
                         @if ($errors->has('dropdown'))
