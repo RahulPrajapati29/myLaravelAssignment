@@ -13,7 +13,7 @@ class PermissionController extends Controller
     public function create()
     {
         $user = auth()->user();
-        $items = User::all();
+        $items = User::select('name')->where('isAdmin',false)->orderBy('name')->get();
         return view('admin.grantaccess',compact('user','items'));
     }
     public function store()
