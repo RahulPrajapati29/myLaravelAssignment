@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
+use App\Repositories\PostRepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use phpDocumentor\Reflection\Types\True_;
@@ -14,9 +16,13 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private $postRepository;
+    private $userRepository;
+    public function __construct(PostRepositoryInterface $postRepository,UserRepositoryInterface $userRepository)
     {
         $this->middleware('auth');
+        $this->postRepository = $postRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -26,21 +32,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        if($user->isAdmin)
-        {
-            return view('home');
-        }
-        else if(!$user->isAdmin)
-        {
-            $posts = Post::all();
-            //dd($posts);
-            return view('posts.show',compact('posts'));
-        }
-        else
-        {
-            return abort(404, "The Partner was not found");
-        }
+        return $this->userRepository->redirectUser();
+
     }
 
 }

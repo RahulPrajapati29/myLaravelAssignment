@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Repositories\ImplementRepository\PostRepository;
+use App\Repositories\PostRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -10,46 +12,38 @@ use Illuminate\Database\Eloquent\Collection;
 
 class PostsController extends Controller
 {
-    public function __construct()
+    private $postRepository;
+    public function __construct(PostRepositoryInterface $postRepository)
     {
         $this->middleware('auth');
         $this->middleware('App\Http\Middleware\isUserAdmin');
+        $this->postRepository = $postRepository;
     }
     public function index()
     {
-        $posts = Post::all();
-        $posts = Post::paginate(5);
-        $user = auth()->user();
-        return view('posts.list',compact('user','posts'));
+        return $this->postRepository->index();
     }
     public function create()
     {
-        $user = auth()->user();
-
-        return view('posts.create',compact('user'));
+        return $this->postRepository->create();
 
     }
     public function store()
     {
-        (new \App\Models\Post)->storeThePost();
-        return redirect(route('post.index'));
+        return $this->postRepository->store();
     }
 
     public function edit($id)
     {
-        $post = Post::find($id);
-        return view('admin.edit',compact('post',));
+        return $this->postRepository->edit($id);
     }
     public function update($id)
     {
-        (new \App\Models\Post)->updateThePost($id);
-        return redirect(route('post.index'));
+        return $this->postRepository->update($id);
     }
     public function destroy($id)
     {
-        $post = Post::find($id);
-        $post->delete();
-        return redirect(route('post.index'));
+        return $this->postRepository->destroy($id);
     }
 
 }
