@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RequestValidation;
 use App\Models\Post;
 use App\Repositories\ImplementRepository\PostRepository;
 use App\Repositories\PostRepositoryInterface;
@@ -28,18 +29,18 @@ class PostsController extends Controller
         return $this->postRepository->create();
 
     }
-    public function store()
+    public function store(RequestValidation $request)
     {
-        return $this->postRepository->store();
+        return $this->postRepository->store($request);
     }
 
     public function edit($id)
     {
         return $this->postRepository->edit($id);
     }
-    public function update($id)
+    public function update(RequestValidation $request,$id)
     {
-        return $this->postRepository->update($id);
+        return $this->postRepository->update($request,$id);
     }
     public function destroy($id)
     {

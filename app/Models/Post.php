@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\RequestValidation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
@@ -16,11 +17,11 @@ class Post extends Model
 
         return $this->belongsTo(User::class);
     }
-    public function updateThePost($id)
+    public function updateThePost($request,$id)
     {
         date_default_timezone_set('Asia/Kolkata');
         $current_time = date('Y-m-d H:i:s');
-        $data = request()->validate([
+        $data = $request->validate([
             'caption' => 'required',
             'image' => ''
         ]);
@@ -39,9 +40,9 @@ class Post extends Model
             ['image' => $imagePath, 'created_at' => $current_time, 'updated_at' => $current_time]
         ));
     }
-    public function storeThePost()
+    public function storeThePost($request)
     {
-        $data = request()->validate([
+        $data = $request->validate([
             'caption' => 'required',
             'image' => ['required','image']
         ]);

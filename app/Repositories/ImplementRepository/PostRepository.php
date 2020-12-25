@@ -4,6 +4,7 @@
 namespace App\Repositories\ImplementRepository;
 
 
+use App\Http\Requests\RequestValidation;
 use App\Models\Post;
 use App\Repositories\PostRepositoryInterface;
 
@@ -31,9 +32,9 @@ class PostRepository implements PostRepositoryInterface
         return view('posts.create',compact('user'));
 
     }
-    public function store()
+    public function store($request)
     {
-        (new \App\Models\Post)->storeThePost();
+        (new \App\Models\Post)->storeThePost($request);
         return redirect(route('post.index'));
     }
 
@@ -42,9 +43,9 @@ class PostRepository implements PostRepositoryInterface
         $post = Post::find($id);
         return view('admin.edit',compact('post',));
     }
-    public function update($id)
+    public function update($request,$id)
     {
-        (new \App\Models\Post)->updateThePost($id);
+        (new \App\Models\Post)->updateThePost($request,$id);
         return redirect(route('post.index'));
     }
     public function destroy($id)

@@ -14,11 +14,11 @@ interface PostRepositoryInterface
 
     public function create();
 
-    public function store();
+    public function store($request);
 
     public function edit($id);
 
-    public function update($id);
+    public function update($request,$id);
 
     public function destroy($id);
 }
