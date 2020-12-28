@@ -24,11 +24,14 @@ class PermissionController extends Controller
     }
     public function store()
     {
-        return $this->userRepository->store();
+        $user = auth()->user();
+        $user_id = request('id');
+        $user_name =  $this->userRepository->store($user_id);
+        return $this->setPermission($user_id,$user_name);
 
     }
-    public function setPermission($user_id, $user_name, $data)
+    public function setPermission($user_id, $user_name)
     {
-        return $this->userRepository->setPermission($user_id, $user_name, $data);
+        return $this->userRepository->setPermission($user_id, $user_name);
     }
 }

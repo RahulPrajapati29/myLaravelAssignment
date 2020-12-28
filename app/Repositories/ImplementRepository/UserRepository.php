@@ -7,6 +7,7 @@ namespace App\Repositories\ImplementRepository;
 use App\Models\User;
 use App\Repositories\PostRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use http\Message;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
@@ -16,10 +17,13 @@ class UserRepository implements UserRepositoryInterface
     {
         $this->postRepository = $postRepository;
     }
-
+    public function all()
+    {
+        return User::all();
+    }
     public function selectDataWhereNotAdmin()
     {
-        return User::select('name')->where('isAdmin', false)->orderBy('name')->get();
+        return User::select('name','id')->where('isAdmin', false)->orderBy('name')->get();
     }
 
     public function pluckNameHavingGivenId($user_id)
@@ -39,27 +43,16 @@ class UserRepository implements UserRepositoryInterface
         return view('admin.grantaccess', compact('user', 'items'));
     }
 
-    public function store()
+    public function store($user_id)
     {
-        $user = auth()->user();
-        $data = request()->validate([
-            'id' => 'required',
-        ]);
-        $user_id = request('id');
-        $user_name = $this->pluckNameHavingGienId($user_id);
-        $response = $this->setPermission($user_id, $user_name, $data);
-        return $response;
+        $response = $this->pluckNameHavingGivenId($user_id);
+        return $response[0];
     }
 
-    public function setPermission($user_id, $user_name, $data)
+    public function setPermission($user_id, $user_name)
     {
-        $user = auth()->user();
-        $data = request()->validate([
-            'id' => 'required',
-        ]);
-        $user_id = request('id');
-        $user_name = $this->pluckNameHavingGienId($user_id);
-        $response = $this->setPermission($user_id, $user_name, $data);
+        $affected = DB::update('update users set isAdmin = ? where id = ?',[true,$user_id]);
+        $response = redirect('/admin/permission')->with('success', "{$user_name} is now Admin.");
         return $response;
     }
     public function redirectUser()
@@ -72,7 +65,6 @@ class UserRepository implements UserRepositoryInterface
         else if(!$user->isAdmin)
         {
             $posts = $this->postRepository->all();
-            //dd($posts);
             return view('posts.show',compact('posts'));
         }
         else

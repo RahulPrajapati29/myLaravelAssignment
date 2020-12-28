@@ -21,10 +21,7 @@ class Post extends Model
     {
         date_default_timezone_set('Asia/Kolkata');
         $current_time = date('Y-m-d H:i:s');
-        $data = $request->validate([
-            'caption' => 'required',
-            'image' => ''
-        ]);
+        $data = $request->validated();
         $post = Post::find($id);
         $imagePath = $post->image;
 
@@ -42,13 +39,8 @@ class Post extends Model
     }
     public function storeThePost($request)
     {
-        $data = $request->validate([
-            'caption' => 'required',
-            'image' => ['required','image']
-        ]);
-
+        $data = $request->validated();
         $imagePath = request('image')->store('uploads','public');
-
         auth()->user()->posts()->create([
             'caption' => $data['caption'],
             'image' => $imagePath

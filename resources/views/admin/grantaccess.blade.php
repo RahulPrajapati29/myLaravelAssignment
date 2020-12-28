@@ -6,12 +6,7 @@
             @if(Session::has('success'))
                 <div class="alert alert-success col-8 offset-2 ">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>{{ Session::get('message', '') }} </strong>
-                </div>
-            @elseif(!Session::has('success') and Session::has('message'))
-                <div class="alert alert-danger col-8 offset-2 ">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>{{ Session::get('message', '') }} </strong>
+                    <strong>{{ Session::get('success') }} </strong>
                 </div>
             @endif
             <form action="{{ route('permission.store') }}" enctype="multipart/form-data" method="POST">
@@ -32,7 +27,11 @@
                             </span>
                         @endif
                         <br>
-                        <button class="btn btn-primary">Make Admin</button>
+                        @if ($items->count()>0)
+                            <button class="btn btn-primary">Make Admin</button>
+                        @else
+                            <h4>Currently everyone is Admin</h4>
+                        @endif
                     </div>
                 </div>
             </form>
