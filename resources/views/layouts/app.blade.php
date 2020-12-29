@@ -84,7 +84,7 @@
         </nav>
         @auth
         <div class="row">
-            <aside class=" main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4" style="max-width: 200px;">
 
                 <div class="fa-2x pl-3 font-weight-bold text-blue" style="color: #ffffff">
                         myApp

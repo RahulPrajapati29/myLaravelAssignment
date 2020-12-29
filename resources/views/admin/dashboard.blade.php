@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-    <div class="container offset-2">
+    <div class="container float-right">
         <section class="content">
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->

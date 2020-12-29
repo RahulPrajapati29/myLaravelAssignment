@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
 
-        <div class="col-8 offset-3">
+        <div class="offset-2">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <h3 class="card-title ">Post Details &nbsp</h3>
