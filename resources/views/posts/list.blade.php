@@ -11,50 +11,22 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
+                    <table class="table table-hover text-nowrap" id="laravel_datatable">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Date</th>
+                            <th>S.No</th>
+                            <th>Id</th>
+                            <th>Name</th>
                             <th>Caption</th>
-                            <th>Update</th>
+                            <th>Created At</th>
+                            <th>Edit Post</th>
                             <th>Delete Post</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($posts as $post)
-                            <tr>
-                                <td>{{ $post->user_id }}</td>
-                                @php
-                                    $username = DB::table('users')->where('id', $post->user_id)->pluck('name');
-                                @endphp
-                                <td>{{ $username[0]  }}</td>
-                                <td>{{ $post->created_at }}</td>
-                                <td>{{ $post->caption }}</td>
-                                <td>
-                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-primary text-white text-decoration-none " role="button">
-                                        <span class="ion-edit"></span>
-                                        Edit
-                                    </a>
-                                </td>
-                                <td>
-                                    <form action="{{ route('post.destroy',$post->id) }}" enctype="multipart/form-data" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-primary"><span class="ion ion-trash-a"></span> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
 
                         </tbody>
                     </table>
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-center">
-                            {{ $posts->links() }}
-                        </div>
-                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -63,3 +35,40 @@
     </div>
 
 @endsection
+@push('scripts')
+    <script>
+        var SITEURL = '{{URL::to('/post')}}';
+        $(document).ready( function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#laravel_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: SITEURL,
+                    type: 'GET',
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
+                    {data: 'user_id', name: 'user_id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'caption', name: 'caption' },
+                    {data: 'created_at', name: 'created_at' },
+                    {data: 'edit', name: 'edit', orderable: false},
+                    {data: 'delete', name: 'delete', orderable: false}
+                ],
+            });
+
+            /*  When user click add user button */
+
+
+            /* When click edit user */
+
+
+        });
+    </script>
+
+@endpush

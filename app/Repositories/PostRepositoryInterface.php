@@ -10,7 +10,7 @@ interface PostRepositoryInterface
 
     public function all();
 
-    public function index();
+    public function index($request);
 
     public function create();
 

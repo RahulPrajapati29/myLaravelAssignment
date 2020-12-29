@@ -29,3 +29,4 @@ Route::get('/admin/permission', [App\Http\Controllers\PermissionController::clas
 
 Route::post('/admin/permission', [App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
 
+
