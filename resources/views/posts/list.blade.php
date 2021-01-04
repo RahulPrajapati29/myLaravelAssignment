@@ -15,7 +15,6 @@
                         <thead>
                         <tr>
                             <th>S.No</th>
-                            <th>Id</th>
                             <th>Name</th>
                             <th>Caption</th>
                             <th>Created At</th>
@@ -53,7 +52,6 @@
                 },
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
-                    {data: 'user_id', name: 'user_id'},
                     {data: 'name', name: 'name'},
                     {data: 'caption', name: 'caption' },
                     {data: 'created_at', name: 'created_at' },
