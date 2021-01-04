@@ -37,7 +37,7 @@
 @endsection
 @push('scripts')
     <script>
-        var SITEURL = '{{URL::to('/post')}}';
+        var SITEURL = "{{ route('post.list') }}";
         $(document).ready( function () {
             $.ajaxSetup({
                 headers: {
@@ -61,13 +61,6 @@
                     {data: 'delete', name: 'delete', orderable: false}
                 ],
             });
-
-            /*  When user click add user button */
-
-
-            /* When click edit user */
-
-
         });
     </script>
 

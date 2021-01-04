@@ -19,14 +19,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index']);
-
 Route::resource('user', 'App\Http\Controllers\HomeController');
 
-Route::resource('post', 'App\Http\Controllers\PostsController');
+Route::middleware(["isAdmin"])->prefix('admin')->group(function () {
+    Route::get('dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index']);
+    Route::get('post',[App\Http\Controllers\Admin\PostsController::class, 'index']);
+    Route::get('post/list',[App\Http\Controllers\Admin\PostsController::class, 'showDataTable'])->name('post.list');
+    Route::resource('post', 'App\Http\Controllers\Admin\PostsController');
+    Route::get('permission', [App\Http\Controllers\Admin\PermissionController::class, 'create']);
+    Route::post('permission', [App\Http\Controllers\Admin\PermissionController::class, 'store'])->name('permission.store');
 
-Route::get('/admin/permission', [App\Http\Controllers\PermissionController::class, 'create']);
-
-Route::post('/admin/permission', [App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
-
-
+});

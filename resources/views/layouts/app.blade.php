@@ -122,11 +122,11 @@
                             <li class="nav-item">
                                 @php
                                     $isactive = '';
-                                    if(Request::path() == 'post'){
+                                    if(Request::path() == 'admin/post'){
                                         $isactive = 'active';
                                     }
                                 @endphp
-                                <a href="/post" class="nav-link {{ $isactive }}">
+                                <a href="/admin/post" class="nav-link {{ $isactive }}">
                                     <p>
                                         Post
                                     </p>

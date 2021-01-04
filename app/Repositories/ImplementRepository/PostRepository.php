@@ -25,44 +25,6 @@ class PostRepository implements PostRepositoryInterface
     {
         return Post::all();
     }
-    public function index($request)
-    {
-        if ($request->ajax()) {
-            $data = Post::select('*');
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('name',function ($data){
-                    return DB::table('users')->where('id', $data->user_id)->pluck('name')[0];
-                })
-                ->addColumn('edit', function ($data) {
-                    return '<a href="'.route('post.edit', $data->id).'" class="btn btn-primary" >Edit</a>';
-                })
-                ->addColumn('delete', function ($data) {
-
-                    $c = csrf_field();
-                    $m = method_field('DELETE');
-
-                    return '<form action= "'.route('post.destroy',$data->id).'" method="POST")>
-
-                            '.$c.'
-
-                            '.$m.'
-
-                            <button class="btn btn-primary"> Delete</button>
-                            </form>';
-                })
-                ->rawColumns(["name","edit","delete"])
-                ->make(true);
-        }
-        return view('posts.list');
-    }
-    public function create()
-    {
-        $user = auth()->user();
-
-        return view('posts.create',compact('user'));
-
-    }
     public function store($request)
     {
         (new \App\Models\Post)->storeThePost($request);
@@ -85,6 +47,7 @@ class PostRepository implements PostRepositoryInterface
         $post->delete();
         return redirect(route('post.index'));
     }
+
 }
 
 
