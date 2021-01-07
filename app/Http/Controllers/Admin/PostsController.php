@@ -48,6 +48,10 @@ class PostsController extends Controller
     {
         return $this->postRepository->destroy($id);
     }
+    public function show()
+    {
+        return view('posts.list');
+    }
     public function showDataTable(Request $request)
     {
         if ($request->ajax()) {
@@ -71,7 +75,7 @@ class PostsController extends Controller
 
                             ' . $m . '
 
-                            <button class="btn btn-primary"> Delete</button>
+                            <button class="btn btn-primary deletePost" data-name='.$data->caption.'> Delete</button>
                             </form>';
                 })
                 ->rawColumns(["name", "edit", "delete"])

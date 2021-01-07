@@ -11,7 +11,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap" id="laravel_datatable">
+                    <table class="table table-hover text-nowrap laraData" id="laravel_datatable">
                         <thead>
                         <tr>
                             <th>S.No</th>
@@ -35,6 +35,7 @@
 
 @endsection
 @push('scripts')
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
     <script>
         var SITEURL = "{{ route('post.list') }}";
         $(document).ready( function () {
@@ -58,6 +59,22 @@
                     {data: 'edit', name: 'edit', orderable: false},
                     {data: 'delete', name: 'delete', orderable: false}
                 ],
+            });
+            $('.laraData').on('click','.deletePost',function(event) {
+                var form =  $(this).closest("form");
+                event.preventDefault();
+                swal({
+                    title: `Are you sure you want to delete the post?`,
+                    text: "If you delete this, it will be gone forever.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            form.submit();
+                        }
+                    });
             });
         });
     </script>
